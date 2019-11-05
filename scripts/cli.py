@@ -3,17 +3,18 @@ import click
 import subprocess
 
 def run_cmds(cmds, shell=False):
+    #TODO replace subprocess with https://github.com/amitt001/delegator.py
     for cmd in cmds:
         subprocess.check_call(cmd, shell=shell)
 
-def write_cmds_to_file(cmds, fname):
-    with open(fname, 'w') as fh:
-        for cmd in cmds:
-            fh.write(cmd + '\n')
+def dry_run_cmds(cmds, outfiles):
+    run_cmds(['touch {}'.format(outfname) for outfname in outfiles], shell=True)
+    for cmd in cmds:
+        click.echo(cmd)
 
-def dry_check_run_cmds(cmds, ctx, outfile=None, shell=False):
+def dry_check_run_cmds(cmds, ctx, outfiles=[], shell=False):
     if ctx.obj['DRY']:
-        write_cmds_to_file(cmds, outfile)
+        dry_run_cmds(cmds, outfiles)
     else:
         run_cmds(cmds, shell=shell)
 
@@ -39,7 +40,9 @@ def command1(ctx, option1, option2, option3):
     A command belonging to the top level cli group.
     '''
     click.echo('Dry run is %s' % (ctx.obj['DRY'] and 'on' or 'off'))
-    click.echo('command1 run with option1: {}, option2: {}, option3: {}'.format(option1, option2, option3))
+    outfiles = ['{}.{}.{}.{}.txt'.format(output, option1, option2, option3) for output in ('output1', 'output2', 'output3')]
+    cmds = ['echo {} {} {} > {}'.format(option1, option2, option3, outfile) for outfile in outfiles]
+    dry_check_run_cmds(cmds, ctx, outfiles=outfiles, shell=True)
 
 if __name__ == '__main__':
     cli(obj={})

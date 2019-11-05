@@ -6,9 +6,11 @@ params.dryRun = false
 println params
 if( params.dryRun ){
     dryFlag = '--dry'
+    outdir = params.outdir + '/.dry/'
 } 
 else {
     dryFlag = ''
+    outdir = params.outdir
 }
 
 /*
@@ -27,7 +29,7 @@ process pythoncli {
     container "quay.io/eharkins/nextflow-example"
 
 // uncomment to echo std out from each command run by nextflow, otherwise it will be ignored
-//    echo true
+    echo true
 
     input:
     each var1 from channel1
@@ -35,13 +37,13 @@ process pythoncli {
     each var3 from channel3
 
     output:
-    file "${var1}.${var2}.${var3}.txt"
+    file "output1.${var1}.${var2}.${var3}.txt"
+    file "output2.${var1}.${var2}.${var3}.txt"
+    file "output3.${var1}.${var2}.${var3}.txt"
 
-    publishDir "${params.outdir}"
+    publishDir "${outdir}"
 
     """
-    cli.py ${dryFlag} command1 --option1 ${var1} --option2 ${var2} --option3 ${var3} > ${var1}.${var2}.${var3}.txt
+    cli.py ${dryFlag} command1 --option1 ${var1} --option2 ${var2} --option3 ${var3}
     """
 }
-
-
