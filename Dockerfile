@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install click
 
 COPY . /cli-example
-WORKDIR /cli-example
 
 RUN chmod +x /cli-example/scripts/*
 ENV PATH="$PATH:/cli-example/scripts"
