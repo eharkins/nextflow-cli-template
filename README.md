@@ -39,5 +39,6 @@ Once you have completed the above steps and tested locally, to run the workflow 
 - Follow the [instructions for setting up credentials for access to the Fred Hutch AWS account](https://sciwiki.fredhutch.org/scicomputing/access_credentials/#amazon-web-services-aws).
 - When running on AWS Batch or using S3 storage, you will need to use your PI-specific S3 bucket as in these instructions
 - You will need to email scicomp after setting up credentials to get the `jobRole` in [nextflow.aws.config](https://github.com/eharkins/nextflow-cli-example/blob/master/nextflow.aws.config).
+- If you are working in the Matsen group at Fred Hutch, you can find [`$AWS_JOB_ROLE_ARN`](https://github.com/eharkins/nextflow-cli-example/blob/master/nextflow.aws.config) on the [Matsen group wiki](https://github.com/matsengrp/wiki/wiki/hutch_compute_resources#aws-batch) 
 
 [Scientific Computing (scicomp) document regarding using Nextflow at the Hutch](https://sciwiki.fredhutch.org/compdemos/nextflow/)
