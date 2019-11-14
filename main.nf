@@ -26,7 +26,7 @@ channel3 = Channel.fromPath(params.param3).splitText().map{ it -> it.trim() }
  * do this process for all combinations of the 3 parameters
  */
 process pythoncli {
-    container "quay.io/eharkins/nextflow-example"
+    container "docker.pkg.github.com/eharkins/nextflow-cli-template/nextflow-example:latest"
 
 // uncomment to echo std out from each command run by nextflow, otherwise it will be ignored
     echo true
