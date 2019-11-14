@@ -12,5 +12,9 @@ jobs:
     - uses: actions/checkout@v1
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag nextflow-example:latest
+
+    - name: Commit the Docker image
       run: docker commit nextflow-example:latest quay.io/eharkins/nextflow-example
+
+    - name: Push the Docker image
       run: docker push quay.io/eharkins/nextflow-example
