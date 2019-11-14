@@ -1,10 +1,10 @@
 #!/usr/bin/python
 import click
 import subprocess
+import sys
 
 
 def run_cmds(cmds, shell=False):
-    # TODO replace subprocess with https://github.com/amitt001/delegator.py
     for cmd in cmds:
         subprocess.check_call(cmd, shell=shell)
 
@@ -46,7 +46,7 @@ def cli(ctx, dry):
 @click.pass_context
 def command1(ctx, option1, option2, option3):
     """
-    A command belonging to the top level cli group.
+    A command belonging to the top level cli group that calls an executable using subprocess.
     """
     click.echo("Dry run is %s" % (ctx.obj["DRY"] and "on" or "off"))
     outfiles = [
@@ -58,6 +58,36 @@ def command1(ctx, option1, option2, option3):
         for outfile in outfiles
     ]
     dry_check_run_cmds(cmds, ctx, outfiles=outfiles, shell=True)
+
+
+@cli.command()
+@click.option("--option1")
+@click.option("--option2")
+@click.option("--option3")
+@click.pass_context
+def command2(ctx, option1, option2, option3):
+    """
+    A command belonging to the top level cli group that runs native python code as opposed to running external programs with subprocess (see command1).
+    """
+
+    def run_some_python_code(option1, option2, option3, outfile):
+        """
+        This function would be the main code that gets run for command2.
+        We are just writing the options to the outfile to simulate creating some output from the command.
+        """
+        with open(outfile, "w") as fh:
+            fh.write("{} {} {}".format(option1, option2, option3))
+
+    outfiles = [
+        "{}.{}.{}.{}.txt".format(output, option1, option2, option3)
+        for output in ("output1", "output2", "output3")
+    ]
+    if ctx.obj["DRY"]:
+        run_cmds(["touch {}".format(outfname) for outfname in outfiles], shell=True)
+        print(" ".join(sys.argv))
+    else:
+        for outfile in outfiles:
+            run_some_python_code(option1, option2, option3, outfile)
 
 
 if __name__ == "__main__":
