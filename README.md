@@ -7,6 +7,7 @@ It allows running one's pipeline in a variety of ways, including on cloud servic
 
 This is a template repository containing the foundation of a Nextflow workflow for running commands from a Python-implemented CLI.
 The hope is that this will be useful to those who already have a Python-implemented CLI, and would like to run it with lots of different combinations of parameters in an organized and scalable way.
+[Here are the slides from my presentation](https://docs.google.com/presentation/d/1Hb3_cllkyxzuLvpV75yXn2xtKzYjXeT7C7SJvxmpFOs/edit?usp=sharing) describing Nextflow and this particular use case.
 
 ## Dependencies
 
